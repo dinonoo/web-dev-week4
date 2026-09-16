@@ -1,0 +1,35 @@
+#----postgresql
+pgdata/
+
+#--- Docker
+docker-compose.yaml
+
+#---django
+.venv/
+venv/
+./__pycache__/
+./media
+./db.sqlite3
+__pycache__/
+*.pyc
+./*.pyc
+./static/dist/
+static/dist/
+**/static/dist/
+__pycache__/
+*.pyc
+
+# Python environment และไฟล์ชั่วคราว
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# ค่าลับและฐานข้อมูลในเครื่อง
+.env
+.env.*
+!.env.example
+*.sqlite3
+
+# รูปที่ผู้ใช้อัปโหลด
+media/

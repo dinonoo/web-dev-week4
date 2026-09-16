@@ -1,0 +1,473 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="space-y-12 py-6">
+    <div class="border-b border-gray-200">
+        <h1 class="text-2xl font-bold">AlpineJS vs VanillaJS</h1>
+        <p class="text-gray-600 text-sm">เปรียบเทียบโค้ด alpine กับ vanilla โดยฝั่งซ้ายเป็น vanilla และ ขวาเป็น alpine</p>
+    </div>
+
+    <section>
+        <h2 class="text-xl font-semibold mb-2">1.Variable Management</h2>
+        <p class="text-xs text-gray-500">counter +- ค่าตัวแปร ด้วยปุ่ม</p>
+        <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white mt-4 rounded-lg px-5 py-3">
+                <h3 class="text-lg font-semibold">VanillaJS</h3>
+                <div class="flex flex-col items-center space-y-3">
+                    <div class="text-xl font-mono" id="v1_counter" >0</div>
+                    <div class="space-x-2">
+                        <button id="v1_dec" class="px-3 py-1 bg-red-600 text-white rounded-lg">-</button>
+                        <button id="v1_inc" class="px-3 py-1 bg-green-600 text-white rounded-lg">+</button>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="bg-white mt-4 rounded-lg px-5 py-3" x-data="{ count: 0 }" >
+                <h3 class="text-lg font-semibold">AlpineJS</h3>
+                <div class="flex flex-col items-center space-y-3">
+                    <div class="text-xl font-mono" x-text="count"></div>
+                    <div class="space-x-2">
+                        <button  class="px-3 py-1 bg-red-600 text-white rounded-lg" @click="count-=1">-</button>
+                        <button  class="px-3 py-1 bg-green-600 text-white rounded-lg" @click ="count++">+</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <section>
+        <h2 class="text-xl font-semibold mb-2">2.Show/Hide</h2>
+        <p class="text-xs text-gray-500">ซ่อนหรือแสดง element ในหน้า web</p>
+        <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white mt-4 rounded-lg px-5 py-3">
+                <h3 class="text-lg font-semibold">VanillaJS</h3>
+                <div class="flex flex-col items-center space-y-3">
+                    <div class="space-x-2">
+                        <button id="v2_toggle" class="px-3 py-1 bg-indigo-600 text-white rounded-lg">Show</button>
+                    </div>
+                    <div class="text-xl font-mono opacity-0 transition-opacity duration-300" id="v2_msg" >Hello World!!!</div>
+                </div>
+            </div>
+            <div class="bg-white mt-4 rounded-lg px-5 py-3" x-data="{ show : false }" >
+                <h3 class="text-lg font-semibold ">AlpineJS</h3>
+                <div class="flex flex-col items-center space-y-3">
+                    <div class="space-x-2">
+                        <button  class="px-3 py-1 bg-amber-600 text-white rounded-lg" @click="show = !show" x-text="show ? 'Hide' : 'Show'"></button>
+                    </div>
+                    <div class="text-xl font-mono" x-show="show">Hello World!!!</div>
+                </div>
+            </div>
+        </div>     
+    </section>
+    <section>
+        <h2 class="text-xl font-semibold mb-2">3. Event Handling</h2>
+        <p class="text-xs text-gray-500">ดักจับ enter เวลา submit</p>
+        <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white mt-4 rounded-lg px-5 py-3">
+                <h3 class="text-lg font-semibold">VanillaJS</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="v3_input" class="block text-sm my-2">เพิ่มรายการ</label>
+                        <input id="v3_input" type="text" class="border rounded-lg px-2 py-1 w-5/6" placeholder="เพิ่มข้อมูลโดยกด enter">
+                        <ul id="v3_list" class="list-disc ml-5 mt-2"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white mt-4 rounded-lg px-5 py-3" x-data="{item:'', itemList:[]}" >
+                <h3 class="text-lg font-semibold ">AlpineJS</h3>
+                    <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm my-2">เพิ่มรายการ</label>
+                        <input x-model="item" type="text" @keyup.enter="if(item.trim()){ itemList.push(item.trim()); item=''; }" class="border rounded-lg px-2 py-1 w-5/6" placeholder="เพิ่มข้อมูลโดยกด enter">
+                        <ul class="list-disc ml-5 mt-2">
+                            <template x-for="(it, idx) in itemList" :key="idx">
+                                <li x-text="idx+'. '+ it"></li>
+                            </template>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>     
+    </section>
+    <section>
+        <h2 class="text-xl font-semibold mb-2">4. binding mod</h2>
+        <p class="text-xs text-gray-500">แปลงตัวเลข หน่วงเวลา อัพเดต</p>
+        <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white mt-4 rounded-lg px-5 py-3">
+                <h3 class="text-lg font-semibold">VanillaJS</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="v4_price" class="block text-sm my-2">ราคาสินค้า</label>
+                        <input id="v4_price" type="text" class="border rounded-lg px-2 py-1 w-5/6" placeholder="กรอกราคา">
+                        <label for="v4_tax" class="block text-sm my-2">กรอกภาษีมูลค่าเพิ่ม (%)</label>
+                        <input id="v4_tax" type="text" class="border rounded-lg px-2 py-1 w-5/6" placeholder="กรอกค่าภาษี">
+                        <div id="v4_total" class="mt-2 text-md text-slate-800">รวมสุทธิ : -</div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white mt-4 rounded-lg px-5 py-3" x-data="{price:0, tax:7, total:0}" x-effect="total = (price||0) + ((price*(tax||0))/100)">
+                <h3 class="text-lg font-semibold ">AlpineJS</h3>
+                    <div class="space-y-4">
+                    <div>
+                        <label for="v4_price" class="block text-sm my-2">ราคาสินค้า</label>
+                        <input x-model.number="price"  class="border rounded-lg px-2 py-1 w-5/6" placeholder="กรอกราคา">
+                        <label for="v4_tax" class="block text-sm my-2">กรอกภาษีมูลค่าเพิ่ม (%)</label>
+                        <input x-model.number="tax"  class="border rounded-lg px-2 py-1 w-5/6" placeholder="กรอกค่าภาษี">
+                        <div class="mt-2 text-md text-slate-800">รวมสุทธิ : <span x-text="total.toFixed(2)"></span> </div>
+                    </div>
+                </div>
+            </div>
+        </div>     
+    </section>
+    <section>
+        <h2 class="text-xl font-semibold mb-2">5. Loop and Filter (ค้นหา) </h2>
+        <p class="text-xs text-gray-500">กรองด้วย wording or character ค้นหาข้อมูลที่ดึงมาแล้ว ไม่ต้องดึงข้อมูลใหม่</p>
+        <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white mt-4 rounded-lg px-5 py-3">
+                <h3 class="text-lg font-semibold">VanillaJS</h3>
+                <div class="flex gap-2 mb-3">
+                    <input type="text" id="v5_search" class="border rounded-lg px-2 py-1 flex-1" placeholder="กรอกข้อมูลค้นหา">
+                    <select id="v5_role" class="border rounded px-2 py-1">
+                        <option value="">--ทุกตำแหน่ง--</option>
+                        <option value="Data Analyst">Data Analyst</option>
+                        <option value="Data Engineer">Data Engineer</option>
+                    </select>
+                </div>
+                <p id="v5_count" class="text-sm text-gray-500 my-2"></p>
+                <ul id="v5_list" class="list-disc ml-5 mt-2"></ul>
+            </div>
+            <div class="bg-white mt-4 rounded-lg px-5 py-3" 
+                x-data="{search: '',
+                        role: '',
+                        employee : [
+                            {name : 'Alice', age: 22, role: 'Data Analyst'},
+                            {name : 'Singha', age: 25, role: 'Data Engineer'},
+                            {name : 'Leo', age: 28, role: 'Data Analyst'},
+                            {name : 'Chang', age: 27, role: 'Data Engineer'},
+                            {name : 'Heineken', age: 24, role: 'Data Engineer'},
+                        ],
+                        get filtered(){
+                            return this.employee.filter(x => x.name.toLowerCase().includes(this.search.toLowerCase()) &&
+                            (this.role ==='' || this.role === x.role));
+                        }
+                
+                }">
+                <h3 class="text-lg font-semibold ">AlpineJS</h3>
+                   <div class="flex gap-2 mb-3">
+                        <input x-model="search" class="border rounded-lg px-2 py-1 flex-1" placeholder="กรอกข้อมูลค้นหา">
+                        <select x-model="role" class="border rounded px-2 py-1">
+                            <option value="">--ทุกตำแหน่ง--</option>
+                            <option value="Data Analyst">Data Analyst</option>
+                            <option value="Data Engineer">Data Engineer</option>
+                        </select>
+                    </div>
+                    <p x-text="'found : ' + filtered.length" class="text-sm text-gray-500 my-2"></p>
+                    <ul class="list-disc ml-5 mt-2">
+                        <template x-for="p in filtered" :key="p.name" >
+                            <li class="text-sm" x-text="`${p.name} (${p.age}) - ${p.role}`"></li>
+                        </template>
+                    </ul>
+            </div>
+        </div>     
+    </section>
+        <!-- ข้อ 6 ตรวจสอบอีเมลและรหัสผ่าน -->
+    <section>
+        <!-- <h2 class="text-xl font-semibold mb-2"style="color: #db2777;">ใส่ชื่อนะจ๊ะ</h2> -->
+        <h2 class="text-xl font-semibold mb-2">6. Form Validation</h2>
+        <p class="text-xs text-gray-500">ตรวจสอบอีเมลและรหัสผ่านด้วย JavaScript</p>
+
+        <div class="grid grid-cols-2 gap-6">
+
+            <!-- ฝั่งซ้าย: Vanilla JS -->
+            <div class="bg-white mt-4 rounded-lg px-5 py-3">
+                <h3 class="text-lg font-semibold">VanillaJS</h3>
+
+                <form id="v6_form" class="space-y-4" novalidate>
+                    <div>
+                        <label for="v6_email" class="block text-sm my-2">
+                            อีเมล
+                        </label>
+                        <input
+                            id="v6_email"
+                            type="email"
+                            class="border rounded-lg px-2 py-1 w-full"
+                            placeholder="name@gmail.com"
+                        >
+                        <p id="v6_email_msg" class="text-sm mt-2"
+                           aria-live="polite"></p>
+                    </div>
+
+                    <div>
+                        <label for="v6_password" class="block text-sm my-2">
+                            รหัสผ่าน
+                        </label>
+                        <input
+                            id="v6_password"
+                            type="password"
+                            autocomplete="new-password"
+                            class="border rounded-lg px-2 py-1 w-full"
+                            placeholder="กรอกรหัสผ่าน"
+                        >
+                        <p class="text-xs text-gray-500 mt-2">
+                            อย่างน้อย 8 ตัว มี a-z, A-Z, 0-9
+                            และอักขระพิเศษ เช่น ! @ #
+                        </p>
+                        <p id="v6_password_msg" class="text-sm mt-2"
+                           aria-live="polite"></p>
+                    </div>
+
+                    <button type="submit"
+                            class="px-3 py-1 bg-indigo-600 text-white rounded-lg">
+                        ตรวจสอบ
+                    </button>
+
+                    <p id="v6_result" class="text-sm"
+                       aria-live="polite"></p>
+                </form>
+            </div>
+
+            <!-- ฝั่งขวา: Alpine.js -->
+            <div class="bg-white mt-4 rounded-lg px-5 py-3"
+                 x-data="{
+                    email: '',
+                    password: '',
+                    checked: false,
+
+                    get emailValid() {
+                        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                            this.email.trim()
+                        );
+                    },
+
+                    get passwordValid() {
+                        return this.password.length >= 8
+                            && /[a-z]/.test(this.password)
+                            && /[A-Z]/.test(this.password)
+                            && /[0-9]/.test(this.password)
+                            && /[^a-zA-Z0-9\s]/.test(this.password);
+                    }
+                 }">
+
+                <h3 class="text-lg font-semibold">AlpineJS</h3>
+
+                <form class="space-y-4"
+                      novalidate
+                      @submit.prevent="checked = true"
+                      @input="checked = false">
+
+                    <div>
+                        <label for="a6_email" class="block text-sm my-2">
+                            อีเมล
+                        </label>
+                        <input
+                            id="a6_email"
+                            type="email"
+                            x-model="email"
+                            class="border rounded-lg px-2 py-1 w-full"
+                            placeholder="name@gmail.com"
+                        >
+                        <p class="text-sm mt-2"
+                           aria-live="polite"
+                           :style="{ color: emailValid ? 'green' : 'red' }"
+                           x-text="email === '' && !checked
+                               ? ''
+                               : (emailValid
+                                   ? '✓ รูปแบบอีเมลถูกต้อง'
+                                   : '✗ กรุณากรอกอีเมลให้ถูกต้อง')"></p>
+                    </div>
+
+                    <div>
+                        <label for="a6_password" class="block text-sm my-2">
+                            รหัสผ่าน
+                        </label>
+                        <input
+                            id="a6_password"
+                            type="password"
+                            autocomplete="new-password"
+                            x-model="password"
+                            class="border rounded-lg px-2 py-1 w-full"
+                            placeholder="กรอกรหัสผ่าน"
+                        >
+                        <p class="text-xs text-gray-500 mt-2">
+                            อย่างน้อย 8 ตัว มี a-z, A-Z, 0-9
+                            และอักขระพิเศษ เช่น ! @ #
+                        </p>
+                        <p class="text-sm mt-2"
+                           aria-live="polite"
+                           :style="{ color: passwordValid ? 'green' : 'red' }"
+                           x-text="password === '' && !checked
+                               ? ''
+                               : (passwordValid
+                                   ? '✓ รหัสผ่านครบตามเงื่อนไข'
+                                   : '✗ รหัสผ่านยังไม่ครบตามเงื่อนไข')"></p>
+                    </div>
+
+                    <button type="submit"
+                            class="px-3 py-1 bg-indigo-600 text-white rounded-lg">
+                        ตรวจสอบ
+                    </button>
+
+                    <p class="text-sm"
+                       aria-live="polite"
+                       :style="{
+                           color: emailValid && passwordValid ? 'green' : 'red'
+                       }"
+                       x-text="checked
+                           ? (emailValid && passwordValid
+                               ? '✓ ข้อมูลผ่านการตรวจสอบ'
+                               : '✗ กรุณาแก้ไขข้อมูลให้ถูกต้อง')
+                           : ''"></p>
+                </form>
+            </div>
+
+        </div>
+    </section>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        //1 variable management counter
+        let v1 = 0;
+        const v1Count = document.getElementById('v1_counter');
+        const v1Inc = document.getElementById('v1_inc');
+        v1Inc.addEventListener('click', () => {
+            v1 ++;
+            v1Count.textContent = v1;
+        });
+
+        document.getElementById('v1_dec').addEventListener('click', () => {
+            v1--;
+            v1Count.textContent = v1;
+        });
+
+
+        //2
+        const v2Btn = document.getElementById('v2_toggle');
+        const v2Msg = document.getElementById('v2_msg')
+        v2Btn.addEventListener('click', () => {
+            const isHidden = v2Msg.classList.contains('opacity-0');
+            v2Msg.classList.toggle('opacity-0',!isHidden);
+            v2Btn.textContent = isHidden ? 'Hide':'Show';
+            
+        })
+
+
+        //3
+        const v3Input = document.getElementById('v3_input');
+        const v3List = document.getElementById('v3_list');
+        v3Input.addEventListener('keyup', (e) => {
+            if(e.key === "Enter"){
+                const val = v3Input.value.trim();
+                if(val) {
+                    const li = document.createElement('li');
+                    li.textContent = val;
+                    v3List.appendChild(li);
+                    v3Input.value = '';
+                }
+            }
+        })
+
+        //4
+        const v4Price = document.getElementById('v4_price');
+        const v4Tax = document.getElementById('v4_tax');
+        const v4Total = document.getElementById('v4_total');
+
+        function totalCal() {
+            const price_parse = parseFloat(v4Price.value) || 0;
+            const tax_parse = parseFloat(v4Tax.value) || 0;
+            v4Total.textContent = `รวมสุทธิ : ${(price_parse + ((price_parse*tax_parse)/100)).toFixed(2)}`;
+        }
+        v4Price.addEventListener('input', totalCal);
+
+        //5
+
+        const v5Data = [
+            {name : 'Alice', age: 22, role: 'Data Analyst'},
+            {name : 'Singha', age: 25, role: 'Data Engineer'},
+            {name : 'Leo', age: 28, role: 'Data Analyst'},
+            {name : 'Chang', age: 27, role: 'Data Engineer'},
+            {name : 'Heineken', age: 24, role: 'Data Engineer'},
+        ];
+        const search = document.getElementById('v5_search');
+        const role = document.getElementById('v5_role');
+
+        function renderList() {
+            const word_search = search.value.toLowerCase();
+            // console.log(search.value);
+            selected_role = role.value;
+            const filtered = v5Data.filter(x => x.name.toLowerCase().includes(word_search.toString()) && (selected_role.toString() === '' || x.role === selected_role.toString()));
+            // console.log(filtered)
+            document.getElementById('v5_count').textContent = `found : ${filtered.length}`;
+            document.getElementById('v5_list').innerHTML = filtered.map(x => `<li class ="text-sm">${x.name} (${x.age}) - ${x.role}</li>`).join('');
+        }
+
+        search.addEventListener('input', renderList);
+        role.addEventListener('change', renderList);
+        renderList();
+
+                // 6. Form Validation — Vanilla JS
+        const v6Form = document.getElementById('v6_form');
+        const v6Email = document.getElementById('v6_email');
+        const v6Password = document.getElementById('v6_password');
+
+        const v6EmailMsg = document.getElementById('v6_email_msg');
+        const v6PasswordMsg = document.getElementById('v6_password_msg');
+        const v6Result = document.getElementById('v6_result');
+
+        function validateV6(showEmpty = false) {
+            const email = v6Email.value.trim();
+            const password = v6Password.value;
+
+            // ตรวจรูปแบบอีเมล เช่น name@gmail.com
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+            // ต้องผ่านเงื่อนไขทั้งหมด จึงจะได้ค่า true
+            const passwordValid =
+                password.length >= 8                    // อย่างน้อย 8 ตัว
+                && /[a-z]/.test(password)                // มีตัวพิมพ์เล็ก
+                && /[A-Z]/.test(password)                // มีตัวพิมพ์ใหญ่
+                && /[0-9]/.test(password)                // มีตัวเลข
+                && /[^a-zA-Z0-9\s]/.test(password);      // มีอักขระพิเศษ
+
+            // แสดงผลตรวจสอบอีเมล
+            v6EmailMsg.textContent = email === '' && !showEmpty
+                ? ''
+                : (emailValid
+                    ? '✓ รูปแบบอีเมลถูกต้อง'
+                    : '✗ กรุณากรอกอีเมลให้ถูกต้อง');
+
+            v6EmailMsg.style.color = emailValid ? 'green' : 'red';
+
+            // แสดงผลตรวจสอบรหัสผ่าน
+            v6PasswordMsg.textContent = password === '' && !showEmpty
+                ? ''
+                : (passwordValid
+                    ? '✓ รหัสผ่านครบตามเงื่อนไข'
+                    : '✗ รหัสผ่านยังไม่ครบตามเงื่อนไข');
+
+            v6PasswordMsg.style.color = passwordValid ? 'green' : 'red';
+
+            return emailValid && passwordValid;
+        }
+
+        // ตรวจสอบทันทีขณะพิมพ์ และล้างผลจากการกดปุ่มครั้งก่อน
+        v6Form.addEventListener('input', () => {
+            v6Result.textContent = '';
+            validateV6();
+        });
+
+        // ตรวจสอบเมื่อกดปุ่มหรือกด Enter
+        v6Form.addEventListener('submit', (event) => {
+            event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูลและโหลดหน้าใหม่
+
+            const valid = validateV6(true);
+
+            v6Result.textContent = valid
+                ? '✓ ข้อมูลผ่านการตรวจสอบ'
+                : '✗ กรุณาแก้ไขข้อมูลให้ถูกต้อง';
+
+            v6Result.style.color = valid ? 'green' : 'red';
+        });
+    })
+</script>
+{% endblock%}
